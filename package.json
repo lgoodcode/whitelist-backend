@@ -1,0 +1,44 @@
+{
+  "name": "whitelist-backend",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "^16.x || ^17.x"
+  },
+  "description": "The backend server for the whitelist-crypto site",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/toomuchrice4u/whitelist-backend.git"
+  },
+  "author": "Lawrence Good",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toomuchrice4u/whitelist-backend/issues"
+  },
+  "homepage": "https://github.com/toomuchrice4u/whitelist-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "express-promise-router": "^4.1.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "rotating-file-stream": "^3.0.2"
+  },
+  "nodemonConfig": {
+    "env": {
+      "NODE_ENV": "development"
+    }
+  }
+}
