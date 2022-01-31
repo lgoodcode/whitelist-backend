@@ -5,7 +5,7 @@ const express = require('express')
 const compression = require('compression')
 
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 4000
 
 // Set process name
 if (process.env.APP_NAME) {

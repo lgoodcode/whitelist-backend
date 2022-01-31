@@ -1,13 +1,14 @@
 {
   "name": "whitelist-backend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "engines": {
     "node": "^16.x || ^17.x"
   },
   "description": "The backend server for the whitelist-crypto site",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
