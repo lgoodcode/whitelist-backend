@@ -1,5 +1,4 @@
 require('./config/env')
-const path = require('path')
 const cluster = require('cluster')
 const express = require('express')
 const compression = require('compression')
@@ -15,20 +14,13 @@ if (process.env.APP_NAME) {
 
 // Disable the express header for security
 app.disable('x-powered-by')
-
+// Compress all responses
 app.use(compression())
-
+// Allow cross-domain requests from the frontend to Heroku backend
 app.use(cors())
-
 // Parse JSON and form data in req.body
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
-app.use(
-   express.static(path.join(__dirname, 'public'), {
-      maxAge: '365d',
-   })
-)
 
 // app.use(require('./controllers/logging'))
 
