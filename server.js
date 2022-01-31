@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // app.use(require('./controllers/logging'))
 
-app.use(require('./routes'))
+app.use('/api', require('./routes'))
 
 // Error handler for promises - silently catch
 process.on('uncaughtException', (err) => {

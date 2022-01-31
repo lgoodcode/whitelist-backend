@@ -1,14 +1,9 @@
-const { Pool } = require('pg')
-
-const pool = new Pool({
-   connectionString: process.env.PG_CONNECTION,
-   ssl: {
-      rejectUnauthorized: false,
-   },
-})
+const db = require('../database')
 
 const getProducts = (req, res) => {
-   pool.query('SELECT * FROM products', (err, data) => {
+   const query = 'SELECT * FROM products'
+
+   db.query(query, (err, data) => {
       if (err) {
          console.error(err)
          res.status(400).json({ error: err })
@@ -17,7 +12,14 @@ const getProducts = (req, res) => {
    })
 }
 
-const getProductById = () => null
+const getProductById = (req, res) => {
+   const query = 'SELECT * FROM PRODUCTS WHERE id = $1'
+
+   db.query(query, [req.params.id], (err, data) => {
+      if (err) throw err
+      res.json(data.rows)
+   })
+}
 
 module.exports = {
    getProducts,
