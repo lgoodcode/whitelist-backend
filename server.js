@@ -27,7 +27,7 @@ app.use(
    })
 )
 
-app.use(require('./controllers/logging'))
+// app.use(require('./controllers/logging'))
 
 app.use(require('./routes'))
 
