@@ -4,8 +4,6 @@ const cluster = require('cluster')
 const express = require('express')
 const compression = require('compression')
 
-// const { Pool, Client } = require('pg')
-
 const app = express()
 const port = process.env.PORT
 
@@ -23,33 +21,15 @@ app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use((req, res, next) => {
-   console.log(req.url)
-   next()
-})
-
 app.use(
    express.static(path.join(__dirname, 'public'), {
       maxAge: '365d',
    })
 )
 
-// pools will use environment variables
-// for connection information
-// const pool = new Pool()
-// const pool = new Pool({
-//    user: process.env.PGUSER,
-//    host: process.env.PGHOST,
-//    database: process.env.PGDATABASE,
-//    password: process.env.PGPASSWORD,
-//    port: process.env.PGPORT,
-// })
-
 app.use(require('./controllers/logging'))
 
-app.get('/test', (request, response) => {
-   response.json({ test: 'test' })
-})
+app.use(require('./routes'))
 
 // Error handler for promises - silently catch
 process.on('uncaughtException', (err) => {
