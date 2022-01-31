@@ -3,6 +3,7 @@ const path = require('path')
 const cluster = require('cluster')
 const express = require('express')
 const compression = require('compression')
+const cors = require('cors')
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -16,6 +17,8 @@ if (process.env.APP_NAME) {
 app.disable('x-powered-by')
 
 app.use(compression())
+
+app.use(cors())
 
 // Parse JSON and form data in req.body
 app.use(express.json())
