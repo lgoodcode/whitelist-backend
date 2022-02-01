@@ -35,7 +35,8 @@
          "anonymous": "always",
          "named": "never",
          "asyncArrow": "always"
-       }]
+       }],
+      "react/jsx-filename-extension": "off"
    },
    "ignorePatterns": ["build", "config", "scripts"]
 }

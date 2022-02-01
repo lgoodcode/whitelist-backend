@@ -47,6 +47,7 @@ if (cluster.isPrimary) {
       console.log(`Server started in ${app.get('env')} mode on port ${port}`)
    })
 } else {
+   // eslint-disable-next-line @typescript-eslint/no-var-requires
    require('os')
       .cpus()
       .forEach(() => cluster.fork())

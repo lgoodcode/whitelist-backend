@@ -1,6 +1,6 @@
 {
   "name": "whitelist-backend",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "private": true,
   "engines": {
     "node": "^16.x || ^17.x"
@@ -8,7 +8,9 @@
   "description": "The backend server for the whitelist-crypto site",
   "scripts": {
     "build": "node scripts/build.js",
-    "start": "node scripts/start.js"
+    "start": "node scripts/start.js",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint --fix src/**/*.{js,ts}"
   },
   "repository": {
     "type": "git",

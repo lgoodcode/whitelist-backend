@@ -1,4 +1,4 @@
-import { Pool, Query, QueryArrayConfig, QueryResult } from 'pg'
+import { Pool, QueryResult } from 'pg'
 
 const SSL =
    process.env.NODE_ENV === 'development'
@@ -25,14 +25,14 @@ pool.on('error', (err: Error) => {
 })
 
 function query(
-   query: string,
+   queryStr: string,
    params: string[],
    callback: (err: Error, result: QueryResult) => void
 ): void {
    if (!params && callback) {
-      pool.query(query, callback)
+      pool.query(queryStr, callback)
    } else {
-      pool.query(query, params, callback)
+      pool.query(queryStr, params, callback)
    }
 }
 
