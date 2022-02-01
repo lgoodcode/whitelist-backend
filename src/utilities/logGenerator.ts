@@ -1,6 +1,6 @@
-const path = require('path')
-const exists = require('fs').existsSync
-const mkdir = require('fs').mkdirSync
+import path from 'path'
+import fs from 'fs'
+const { existsSync, mkdirSync } = fs
 
 /**
  *  Pads the month and day values so that they are a fixed length
@@ -8,7 +8,7 @@ const mkdir = require('fs').mkdirSync
  *  @param {Integer} num - The value
  *  @returns {Integer} New value i.e. 1 -> 01, 11-> 11
  */
-const pad = (num) => (num > 9 ? '' : '0') + num
+const pad = (num: number) => (num > 9 ? '' : '0') + num
 
 /**
  *  Creates the time part of the directory for logging
@@ -29,7 +29,7 @@ function timeDirString() {
  *
  *  @param {String} dirName The directory name to get for logs
  */
-function getLogDir(dirName) {
+function getLogDir(dirName: string) {
    const time = new Date()
    const year = time.getFullYear()
    const month = pad(time.getMonth() + 1)
@@ -38,20 +38,18 @@ function getLogDir(dirName) {
 }
 
 /**
- *  logGenerator
- *
  *  Creates the filename for the log in the proper format with the name given.
  *
  *  @param {String} logName - The name of the log directory i.e. "access_logs"
  *  @return {String} The filename with year_month_day format
  */
-function logGenerator(logName) {
+function logGenerator(logName: string): string {
    const dir = getLogDir(logName)
 
-   if (!exists(dir)) {
-      mkdir(dir)
+   if (!existsSync(dir)) {
+      mkdirSync(dir)
    }
    return `${timeDirString()}-${logName.split('_')[0]}.log`
 }
 
-module.exports = logGenerator
+export default logGenerator

@@ -1,10 +1,10 @@
-const { Pool } = require('pg')
+import { Pool, Query, QueryArrayConfig, QueryResult } from 'pg'
 
 const SSL =
    process.env.NODE_ENV === 'development'
       ? false
       : {
-           rejectUnauthorized: false,
+           rejectUnauthorized: false
         }
 
 const pool = new Pool({
@@ -14,16 +14,28 @@ const pool = new Pool({
     * using self-signed certs which aren't validated by a CA.
     * https://stackoverflow.com/questions/25000183/node-js-postgresql-error-no-pg-hba-conf-entry-for-host
     */
-   ssl: SSL,
+   ssl: SSL
 })
 
 // the pool will emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
-pool.on('error', (err) => {
+pool.on('error', (err: Error) => {
    console.error('Unexpected error on idle client', err)
    process.exit(-1)
 })
 
-module.exports = {
-   query: (text, params, callback) => pool.query(text, params, callback),
+function query(
+   query: string,
+   params: string[],
+   callback: (err: Error, result: QueryResult) => void
+): void {
+   if (!params && callback) {
+      pool.query(query, callback)
+   } else {
+      pool.query(query, params, callback)
+   }
+}
+
+export default {
+   query
 }

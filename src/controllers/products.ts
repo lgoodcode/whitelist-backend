@@ -1,9 +1,11 @@
-const db = require('../database')
+import type { Request, Response } from 'express'
 
-const getProducts = (req, res) => {
+import db from '../database'
+
+export const getProducts = (req: Request, res: Response) => {
    const query = 'SELECT * FROM products'
 
-   db.query(query, (err, data) => {
+   db.query(query, [], (err, data) => {
       if (err) {
          console.error(err)
          res.status(400).json({ error: err })
@@ -12,7 +14,7 @@ const getProducts = (req, res) => {
    })
 }
 
-const getProductById = (req, res) => {
+export const getProductById = (req: Request, res: Response) => {
    const query = 'SELECT * FROM PRODUCTS WHERE id = $1'
 
    db.query(query, [req.params.id], (err, data) => {
@@ -21,7 +23,7 @@ const getProductById = (req, res) => {
    })
 }
 
-module.exports = {
+export default {
    getProducts,
-   getProductById,
+   getProductById
 }

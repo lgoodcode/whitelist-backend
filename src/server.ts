@@ -1,8 +1,10 @@
-require('./config/env')
-const cluster = require('cluster')
-const express = require('express')
-const compression = require('compression')
-const cors = require('cors')
+import '../config/env'
+import cluster from 'cluster'
+import express from 'express'
+import compression from 'compression'
+import cors from 'cors'
+import routes from './routes'
+import type { Worker } from 'cluster'
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -24,7 +26,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // app.use(require('./controllers/logging'))
 
-app.use('/api', require('./routes'))
+app.use('/api', routes)
 
 // Error handler for promises - silently catch
 process.on('uncaughtException', (err) => {
@@ -40,12 +42,11 @@ process.on('uncaughtException', (err) => {
  *
  *  If ran directly, start server app with clustering
  */
-if (cluster.isMaster) {
-   module.exports = app.listen(port, () => {
+if (cluster.isPrimary) {
+   app.listen(port, () => {
       console.log(`Server started in ${app.get('env')} mode on port ${port}`)
    })
 } else {
-   // eslint-disable-next-line global-require
    require('os')
       .cpus()
       .forEach(() => cluster.fork())
@@ -53,12 +54,12 @@ if (cluster.isMaster) {
    // log any workers that disconnect; if a worker disconnects, it
    // should then exit, so we'll wait for the exit event to spawn
    // a new worker to replace it
-   cluster.on('disconnect', (worker) => {
+   cluster.on('disconnect', (worker: Worker) => {
       console.log('CLUSTER: Worker %d disconnected from the cluster.', worker.id)
    })
 
    // when a worker dies (exits), create a worker to replace it
-   cluster.on('exit', (worker, code, signal) => {
+   cluster.on('exit', (worker: Worker, code: number, signal: string) => {
       console.log(
          'CLUSTER: Worker %d died with exit code %d (%s)',
          worker.id,

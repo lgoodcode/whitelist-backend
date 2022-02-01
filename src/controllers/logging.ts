@@ -1,10 +1,11 @@
-const router = require('express').Router()
-const morgan = require('morgan')
-const rfs = require('rotating-file-stream')
-const path = require('path')
-const logGenerator = require('../utilities/logGenerator')
+import express from 'express'
+import morgan from 'morgan'
+import rfs from 'rotating-file-stream'
+import path from 'path'
+import logGenerator from 'utilities/logGenerator'
+import type { Request, Response } from 'express'
 
-module.exports = router
+const router = express.Router()
 
 /**
  * If in development mode, log 4xx to 5xx responses to console
@@ -12,7 +13,7 @@ module.exports = router
 if (process.env.NODE_ENV === 'development') {
    router.use(
       morgan('dev', {
-         skip: (req, res) => res.statusCode < 400,
+         skip: (req: Request, res: Response) => res.statusCode < 400
       })
    )
 }
@@ -24,8 +25,8 @@ router.use(
    morgan('common', {
       stream: rfs.createStream(logGenerator('common'), {
          interval: '1d',
-         path: path.join(process.cwd(), 'logs', 'common'),
-      }),
+         path: path.join(process.cwd(), 'logs', 'common')
+      })
    })
 )
 
@@ -34,10 +35,12 @@ router.use(
  */
 router.use(
    morgan(':remote-addr [:date]', {
-      skip: (req) => !req.path.match(/^(\/api)?\/v\d+\/error-report$/),
+      skip: (req: Request) => !req.path.match(/^(\/api)?\/v\d+\/error-report$/),
       stream: rfs.createStream(logGenerator('error'), {
          interval: '1d',
-         path: path.join(process.cwd(), 'logs', 'error'),
-      }),
+         path: path.join(process.cwd(), 'logs', 'error')
+      })
    })
 )
+
+export default router
