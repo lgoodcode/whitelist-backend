@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+# build
+/build
+
 # logs - keep directories for loggingController to work
 /logs/common/**/*
 /logs/error/**/*
