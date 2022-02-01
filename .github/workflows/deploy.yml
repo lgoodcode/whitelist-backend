@@ -1,0 +1,39 @@
+name: Deploy
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: 
+      - 'main'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# They run in parallel unless the "need" property is specified
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Use NodeJS ${{ matrix.node-version }}
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - run: npm install
+      - run: npm run build
+
+  deploy:
+    needs: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "whitelist-backend"
+          heroku_email: "lawrence.good55@gmail.com"
