@@ -4,7 +4,7 @@ name: Deploy
 on:
   push:
     branches: 
-      - 'main'
+      - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # They run in parallel unless the "need" property is specified
@@ -34,6 +34,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "whitelist-backend"
           heroku_email: "lawrence.good55@gmail.com"

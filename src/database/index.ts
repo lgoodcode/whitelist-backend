@@ -8,7 +8,7 @@ const SSL =
         }
 
 const pool = new Pool({
-   connectionString: process.env.PG_CONNECTION,
+   connectionString: process.env.DATABASE_URL,
    /**
     * Require SSL connection but allow unauthorized certificates. This is because we are
     * using self-signed certs which aren't validated by a CA.
@@ -29,7 +29,7 @@ function query(
    params: string[],
    callback: (err: Error, result: QueryResult) => void
 ): void {
-   if (!params && callback) {
+   if (!params) {
       pool.query(queryStr, callback)
    } else {
       pool.query(queryStr, params, callback)
