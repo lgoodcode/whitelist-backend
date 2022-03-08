@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express'
-
 import db from '../database'
 
 export const getProducts = (req: Request, res: Response) => {
