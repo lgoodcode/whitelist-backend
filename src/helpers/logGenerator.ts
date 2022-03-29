@@ -1,7 +1,5 @@
 import path from 'path'
-// import { existsSync, mkdirSync } from 'fs'
-// eslint-disable-next-line
-const { existsSync, mkdirSync } = require('fs')
+import { existsSync, mkdirSync } from 'fs'
 
 /**
  *  Pads the month and day values so that they are a fixed length
@@ -48,6 +46,7 @@ function logGenerator(logName: string): string {
    const dir = getLogDir(logName)
 
    if (!existsSync(dir)) {
+      console.log(`Creating ${dir} log directory...`)
       mkdirSync(dir)
    }
    return `${timeDirString()}-${logName.split('_')[0]}.log`

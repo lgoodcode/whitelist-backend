@@ -4,7 +4,7 @@ import express from 'express'
 import compression from 'compression'
 import cors from 'cors'
 import routes from './routes'
-import logger from './controllers/logging'
+import logging from './controllers/logging'
 import type { Worker } from 'cluster'
 
 const app = express()
@@ -25,9 +25,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use(logger)
+app.use(logging)
 
-app.use('/api', routes)
+app.use('/v1', routes)
 
 // Error handler for promises - silently catch
 process.on('uncaughtException', (err) => {
