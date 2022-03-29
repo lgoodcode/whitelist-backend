@@ -1,5 +1,9 @@
 import { Pool, QueryResult } from 'pg'
 
+if (!process.env.DATABASE_URI) {
+   throw new Error('No database URI provided')
+}
+
 const pool = new Pool({
    connectionString: process.env.DATABASE_URI,
    /**
