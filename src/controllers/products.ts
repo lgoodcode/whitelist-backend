@@ -1,5 +1,5 @@
-import type { Request, Response } from 'express'
 import db from '../database'
+import type { Request, Response } from 'express'
 
 export const getProducts = (req: Request, res: Response) => {
    const query = 'SELECT * FROM products'

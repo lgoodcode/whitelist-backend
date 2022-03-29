@@ -4,6 +4,7 @@ import express from 'express'
 import compression from 'compression'
 import cors from 'cors'
 import routes from './routes'
+import logger from './controllers/logging'
 import type { Worker } from 'cluster'
 
 const app = express()
@@ -24,7 +25,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// app.use(require('./controllers/logging'))
+app.use(logger)
 
 app.use('/api', routes)
 

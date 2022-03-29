@@ -1,10 +1,11 @@
 import express from 'express'
 import morgan from 'morgan'
-import rfs from 'rotating-file-stream'
 import path from 'path'
-import logGenerator from 'utilities/logGenerator'
+import logger from '../helpers/logGenerator'
 import type { Request, Response } from 'express'
-
+// Doesn't support ES module import
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const rfs = require('rotating-file-stream')
 const router = express.Router()
 
 /**
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
  */
 router.use(
    morgan('common', {
-      stream: rfs.createStream(logGenerator('common'), {
+      stream: rfs.createStream(logger('common'), {
          interval: '1d',
          path: path.join(process.cwd(), 'logs', 'common')
       })
@@ -36,7 +37,7 @@ router.use(
 router.use(
    morgan(':remote-addr [:date]', {
       skip: (req: Request) => !req.path.match(/^(\/api)?\/v\d+\/error-report$/),
-      stream: rfs.createStream(logGenerator('error'), {
+      stream: rfs.createStream(logger('error'), {
          interval: '1d',
          path: path.join(process.cwd(), 'logs', 'error')
       })

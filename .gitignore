@@ -1,17 +1,17 @@
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage
 
 # build
-/build
+build
 
 # logs - keep directories for loggingController to work
-/logs/common/**/*
-/logs/error/**/*
+logs/common/**/*
+logs/error/**/*
 
 # misc
 .DS_Store

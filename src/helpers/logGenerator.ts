@@ -1,6 +1,7 @@
 import path from 'path'
-import fs from 'fs'
-const { existsSync, mkdirSync } = fs
+// import { existsSync, mkdirSync } from 'fs'
+// eslint-disable-next-line
+const { existsSync, mkdirSync } = require('fs')
 
 /**
  *  Pads the month and day values so that they are a fixed length
