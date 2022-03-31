@@ -9,6 +9,9 @@ coverage
 # build
 build
 
+# local environment variables for development not to be made public
+.env.local
+
 # logs - keep directories for loggingController to work
 logs/common/**/*
 logs/error/**/*

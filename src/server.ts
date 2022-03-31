@@ -1,11 +1,13 @@
 import '../config/env'
-import cluster from 'cluster'
 import express from 'express'
+import cluster from 'cluster'
 import compression from 'compression'
 import cors from 'cors'
 import routes from './routes'
 import logging from './controllers/logging'
 import type { Worker } from 'cluster'
+
+import forceHTTPS from './helpers/forceHTTPS'
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -24,6 +26,8 @@ app.use(cors())
 // Parse JSON and form data in req.body
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// app.use(forceHTTPS)
 
 app.use(logging)
 

@@ -1,19 +1,19 @@
 {
    "compilerOptions": {
-     "target": "ES2015",
-     "module": "es6",
+     "target": "ES6",
+     "lib": ["esnext"],
+     "module": "ES6",
+     "moduleResolution": "node",
      "strict": true,
      "esModuleInterop": true,
      "skipLibCheck": true,
      "forceConsistentCasingInFileNames": true,
-     "lib": ["esnext"],
      "allowJs": true,
      "noEmit": false,
-     "moduleResolution": "node",
      "resolveJsonModule": true,
      "isolatedModules": true,
-     "baseUrl": "src",
+     "baseUrl": "./src",
      "outDir": "build"
    },
-   "include": ["src"]
+   "include": ["./src"]
 }
