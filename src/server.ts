@@ -1,76 +1,39 @@
-import '../config/env'
-import express from 'express'
-import cluster from 'cluster'
-import compression from 'compression'
-import cors from 'cors'
-import routes from './routes'
-import logging from './controllers/logging'
-import type { Worker } from 'cluster'
+import cluster, { type Worker } from 'cluster'
+import os from 'os'
+import chalk from 'chalk'
+import app from './app'
 
-import forceHTTPS from './helpers/forceHTTPS'
-
-const app = express()
-const port = process.env.PORT || 4000
-
-// Set process name
-if (process.env.APP_NAME) {
-   process.title = process.env.APP_NAME
-}
-
-// Disable the express header for security
-app.disable('x-powered-by')
-// Compress all responses
-app.use(compression())
-// Allow cross-domain requests from the frontend to Heroku backend
-app.use(cors())
-// Parse JSON and form data in req.body
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-
-// app.use(forceHTTPS)
-
-app.use(logging)
-
-app.use('/v1', routes)
-
-// Error handler for promises - silently catch
-process.on('uncaughtException', (err) => {
-   console.error(`uncaught error\n${err.stack}`)
-   console.error('Killing node...')
-   process.exit(1)
-})
+// Check the number of workers possible with Heroku with fallback to CPU count
+const totalWorkers = process.env.WEB_CONCURRENCY || os.cpus().length
+const port = process.env.PORT ?? 4000
 
 /**
- *  If this script is ran directly, require.main === module will be true;
- *  if it is false, the script has been loaded from another script
- *  using require.
- *
- *  If ran directly, start server app with clustering
+ * If not the master, then it is a worker and run the server process.
+ * Otherwise, if it is the master, then create a worker for each CPU thread
+ * and fork.
  */
-if (cluster.isPrimary) {
+if (!cluster.isPrimary) {
    app.listen(port, () => {
-      console.log(`Server started in ${app.get('env')} mode on port ${port}`)
+      console.log(chalk.cyan(`Server started in ${app.get('env')} mode on port ${port}`))
    })
 } else {
-   // eslint-disable-next-line @typescript-eslint/no-var-requires
-   require('os')
-      .cpus()
-      .forEach(() => cluster.fork())
+   for (let i = 0; i < totalWorkers; i++) {
+      cluster.fork()
+   }
 
-   // log any workers that disconnect; if a worker disconnects, it
-   // should then exit, so we'll wait for the exit event to spawn
-   // a new worker to replace it
+   // Log any workers that disconnect
    cluster.on('disconnect', (worker: Worker) => {
-      console.log('CLUSTER: Worker %d disconnected from the cluster.', worker.id)
+      console.log(
+         chalk.yellow(`[CLUSTER] Worker ${worker.id} disconnected from the cluster`)
+      )
    })
 
-   // when a worker dies (exits), create a worker to replace it
+   // When a worker dies, create a worker to replace it
    cluster.on('exit', (worker: Worker, code: number, signal: string) => {
       console.log(
-         'CLUSTER: Worker %d died with exit code %d (%s)',
-         worker.id,
-         code,
-         signal
+         chalk.red(
+            `[CLUSTER] Worker ${worker.id} died with exit code ${code} (${signal})`
+         )
       )
       cluster.fork()
    })

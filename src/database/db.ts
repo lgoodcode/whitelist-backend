@@ -1,4 +1,4 @@
-import { Pool, QueryResult } from 'pg'
+import { Pool } from 'pg'
 
 if (!process.env.DATABASE_URI) {
    throw new Error('No database URI provided')
@@ -7,8 +7,7 @@ if (!process.env.DATABASE_URI) {
 const pool = new Pool({
    connectionString: process.env.DATABASE_URI,
    /**
-    * Require SSL connection but allow unauthorized certificates. This is because we are
-    * using self-signed certs which aren't validated by a CA.
+    * Require SSL connection but allow no SSL only when in development or test mode.
     * https://stackoverflow.com/questions/25000183/node-js-postgresql-error-no-pg-hba-conf-entry-for-host
     */
    ssl:
@@ -26,16 +25,8 @@ pool.on('error', (err: Error) => {
    process.exit(-1)
 })
 
-function query(
-   queryStr: string,
-   params: string[],
-   callback: (err: Error, result: QueryResult) => void
-): void {
-   if (!params) {
-      pool.query(queryStr, callback)
-   } else {
-      pool.query(queryStr, params, callback)
-   }
+function query(statement: string, params?: string[]) {
+   return !params ? pool.query(statement) : pool.query(statement, params)
 }
 
 export default {

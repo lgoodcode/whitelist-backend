@@ -9,14 +9,16 @@ coverage
 # build
 build
 
-# local environment variables for development not to be made public
-.env.local
-
 # logs - keep directories for loggingController to work
 logs/common/**/*
 logs/error/**/*
 
+# eslintcache
+.eslintcache
+
 # misc
+TODO.md
+notes.md
 .DS_Store
 .env.local
 .env.development.local
@@ -30,5 +32,3 @@ yarn-error.log*
 
 # temp ignore until files are needed
 .github/workflows/test.yml
-
-

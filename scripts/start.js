@@ -15,9 +15,7 @@ require('../config/env')
 
 const chalk = require('chalk')
 const webpack = require('webpack')
-const paths = require('../config/paths')
-const configFactory = require('../config/webpack.config')
-const config = configFactory('development')
+const config = require('../config/webpack.config')('development')
 
 console.clear()
 console.log(chalk.yellow('Starting development server...\n'))

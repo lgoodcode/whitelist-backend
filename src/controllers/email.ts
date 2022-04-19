@@ -1,5 +1,6 @@
 import sgMail from '@sendgrid/mail'
-import type { Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
+import type { EmailResponse } from 'types/Email'
 
 if (!process.env.SENDGRID_API_KEY) {
    throw new Error('No SendGrid API key provided')
@@ -32,34 +33,57 @@ function createEmail(req: Request, type: 'info' | 'response') {
  * If the value for the email is null, then it was successful. If failed,
  * it will return the error object.
  */
-async function sendMail(req: Request, res: Response) {
-   const response = await sgMail
-      .send(createEmail(req, 'response'))
-      .then(() => null)
-      .catch((err) => err)
-   const info = await sgMail
-      .send(createEmail(req, 'info'))
-      .then(() => null)
-      .catch((err) => err)
-
-   if (info) {
-      console.error(info)
+async function sendMail(req: Request, res: Response, next: NextFunction) {
+   const response: EmailResponse = {
+      success: false,
+      errors: {},
+      emails: {
+         info: -1,
+         response: -1
+      }
    }
 
-   if (response) {
-      console.error(response)
+   if (!req.body.firstName) {
+      response.errors.firstName = 'Missing first name'
+   }
+   if (!req.body.lastName) {
+      response.errors.lastName = 'Missing last name'
+   }
+   if (!req.body.email || req.body.email === '@') {
+      response.errors.email = 'Missing email'
+   }
+   if (!req.body.message) {
+      response.errors.message = 'Missing message'
    }
 
-   if (info && response) {
-      res.status(400)
-   } else {
-      res.status(200)
+   if (Object.keys(response.errors).length > 0) {
+      res.status(400).send(response)
+      return next()
    }
 
-   res.send({
-      info,
-      response
-   })
+   try {
+      const [result, err] = await sgMail.send(createEmail(req, 'response'))
+
+      if (!err) {
+         response.emails.response = result.statusCode
+      }
+   } catch (err) {
+      console.error(err)
+   }
+
+   try {
+      const [result, err] = await sgMail.send(createEmail(req, 'info'))
+
+      if (!err) {
+         response.emails.info = result.statusCode
+      }
+   } catch (err) {
+      console.error(err)
+   }
+
+   response.success = response.emails.response <= 202 || response.emails.info <= 202
+
+   res.status(response.success ? 200 : 400).send(response)
 }
 
 export default sendMail

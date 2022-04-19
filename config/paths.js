@@ -1,9 +1,8 @@
-const fs = require('fs')
+const { realpathSync } = require('fs')
 const { resolve } = require('path')
-const path = require('path')
 
-const appDirectory = fs.realpathSync(process.cwd())
-const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
+const appDirectory = realpathSync(process.cwd())
+const resolveApp = (relativePath) => resolve(appDirectory, relativePath)
 
 module.exports = {
    dotenv: resolveApp('.env'),

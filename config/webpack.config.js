@@ -4,20 +4,23 @@ const nodeExternals = require('webpack-node-externals')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const NodemonWebpackPlugin = require('nodemon-webpack-plugin')
 const paths = require('./paths')
-const { appendFile } = require('fs')
 
-module.exports = (webpackeEnv) => {
-   const isEnvDevelopment = webpackeEnv === 'development'
-   const isEnvProduction = webpackeEnv === 'production'
+module.exports = (webpackEnv) => {
+   const isEnvDevelopment = webpackEnv === 'development'
+   const isEnvProduction = webpackEnv === 'production'
 
    return {
       target: 'node',
-      mode: webpackeEnv,
+      mode: webpackEnv,
+      // Stop compilation early in production
+      bail: isEnvProduction,
       entry: paths.appEntry,
       watch: isEnvDevelopment,
       output: {
          path: paths.appBuild,
-         filename: 'index.js'
+         // The output file is static for development and build since it is
+         // a single point of entry for the app
+         filename: 'main.js'
       },
       externals: [nodeExternals()],
       optimization: {

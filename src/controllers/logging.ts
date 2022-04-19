@@ -9,9 +9,11 @@ import type { Request, Response } from 'express'
 const rfs = require('rotating-file-stream')
 const router = express.Router()
 
-console.log('Checking logs directories...')
+/**
+ * Create logs directories if doesn't exist already
+ */
+console.log('[Logs] Checking logs directories...')
 
-// Create logs directories
 if (!existsSync('logs')) {
    console.log('Creating "logs" directory...')
    mkdirSync('logs')

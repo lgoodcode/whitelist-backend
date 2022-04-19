@@ -15,9 +15,7 @@ require('../config/env')
 
 const chalk = require('chalk')
 const webpack = require('webpack')
-const paths = require('../config/paths')
-const configFactory = require('../config/webpack.config')
-const config = configFactory('production')
+const config = require('../config/webpack.config')('production')
 
 console.clear()
 console.log(chalk.yellow('Creating an optimized production build...\n'))

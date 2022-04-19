@@ -1,25 +1,30 @@
 import db from '../database'
 import type { Request, Response } from 'express'
 
-export const getProducts = (req: Request, res: Response) => {
+export const getProducts = async (req: Request, res: Response) => {
    const query = 'SELECT * FROM products'
+   const data = await db.query(query)
 
-   db.query(query, [], (err, data) => {
-      if (err) {
-         console.error(err)
-         res.status(400).json({ error: err })
-      }
-      res.json(data.rows)
-   })
+   if (data.rowCount === 0) {
+      res.status(204)
+   } else {
+      res.status(200)
+   }
+
+   res.json(data.rows)
 }
 
-export const getProductById = (req: Request, res: Response) => {
+export const getProductById = async (req: Request, res: Response) => {
    const query = 'SELECT * FROM PRODUCTS WHERE id = $1'
+   const data = await db.query(query, [req.params.id])
 
-   db.query(query, [req.params.id], (err, data) => {
-      if (err) throw err
-      res.json(data.rows)
-   })
+   if (data.rowCount === 0) {
+      res.status(204)
+   } else {
+      res.status(200)
+   }
+
+   res.json(data.rows)
 }
 
 export default {

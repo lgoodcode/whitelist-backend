@@ -1,3 +1,1 @@
-import database from './db'
-
-export default database
+export { default } from './db'

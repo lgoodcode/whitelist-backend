@@ -7,15 +7,19 @@ if (!NODE_ENV) {
    throw new Error('The NODE_ENV environment variable is required but was not specified.')
 }
 
-const isEnvDevelopment = process.env.NODE_ENV === 'development'
-
-// Used to load the local dotenv file while also loading the dev or prod 
-// dotenv file
+// We include the `.env.devlopment.local` file for to hold secret such as
+// the database URI connection and SendGrid API key which we don't want to
+// include in the repository
 const dotEnvFiles = [
-   !isEnvDevelopment ? `${paths.dotenv}.local` : null,
-   `${paths.dotenv}.${
-      isEnvDevelopment ? 'development' : 'production'
-   }`
+   `${paths.dotenv}`,
+   `${paths.dotenv}.${NODE_ENV}.local`,
+   // Don't include `.env.local` for `test` environment
+   // since normally you expect tests to produce the same
+   // results for everyone
+   NODE_ENV !== 'test' && `${paths.dotenv}.local`,
+   // Include local development environment files for secrets
+   `${paths.dotenv}.development.local`,
+   `${paths.dotenv}.${NODE_ENV}`
 ].filter(Boolean)
 
 // Loads the environment variables
