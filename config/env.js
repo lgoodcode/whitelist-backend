@@ -7,6 +7,12 @@ if (!NODE_ENV) {
    throw new Error('The NODE_ENV environment variable is required but was not specified.')
 }
 
+// Set placeholders to prevent errors from being thrown
+if (NODE_ENV === 'test') {
+   process.env.DATABASE_URI = 'test'
+   process.env.SENDGRID_API_KEY = 'test'
+}
+
 // We include the `.env.devlopment.local` file for to hold secret such as
 // the database URI connection and SendGrid API key which we don't want to
 // include in the repository
