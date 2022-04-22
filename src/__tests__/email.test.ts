@@ -34,6 +34,7 @@ describe('POST /contact', () => {
    })
 
    it('returns 200 status code on valid input', async () => {
+      const mockSend = sgMail.send as jest.Mock
       const response: EmailResponse = {
          success: true,
          emails: {
@@ -44,7 +45,7 @@ describe('POST /contact', () => {
       }
 
       // Mock a reponse for SendGrid as if the emails were sent successfully
-      ;(sgMail.send as jest.Mock).mockResolvedValue([{ statusCode: 202 }, null])
+      mockSend.mockResolvedValue([{ statusCode: 202 }, null])
 
       await request(app)
          .post(route('/contact'))

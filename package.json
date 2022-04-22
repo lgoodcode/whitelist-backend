@@ -1,6 +1,6 @@
 {
   "name": "whitelist-backend",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "private": true,
   "engines": {
     "node": "17"
@@ -10,7 +10,7 @@
     "start": "node build/main.js",
     "build": "node scripts/build.js",
     "dev": "node scripts/start.js",
-    "test": "node scripts/test.js --watchAll",
+    "test": "node scripts/test.js",
     "test:cov": "node scripts/test.js --coverage",
     "lint": "eslint src/**/*.{js,ts}",
     "lint:fix": "eslint --fix src/**/*.{js,ts}"

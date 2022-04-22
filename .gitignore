@@ -28,7 +28,3 @@ notes.md
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-
-# temp ignore until files are needed
-.github/workflows/test.yml
