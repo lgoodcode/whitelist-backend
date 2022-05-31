@@ -1,10 +1,13 @@
 import express, { type Request, type Response, type NextFunction } from 'express'
 import { check } from 'express-validator'
 import sendEmail from '../controllers/email'
+import { getCourses, getCourseById } from '../controllers/courses'
 import { getProducts, getProductById } from '../controllers/products'
 const router = express.Router()
 
 export default router
+   .get('/courses', getCourses)
+   .get('/courses/:id', getCourseById)
    .get('/products', getProducts)
    .get('/products/:id', getProductById)
    .post(

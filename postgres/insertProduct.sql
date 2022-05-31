@@ -12,9 +12,9 @@ INSERT INTO products (id,
 		('6sxu3XYmTb', 'MNTD', 'MNTD Blackspot', 1200, 10, 0, false, true, ARRAY[
 			'/img/miners/mntd/blackspot/blackspot-birdview.png',
 			'/img/miners/mntd/blackspot/blackspot-installed.jpg',
-      		'/img/miners/mntd/blackspot/blackspot-openbox.jpg',
-      		'/img/miners/mntd/blackspot/blackspot-package.jpg',
-      		'/img/miners/mntd/blackspot/blackspot-spotlight.jpg'
+      	'/img/miners/mntd/blackspot/blackspot-openbox.jpg',
+      	'/img/miners/mntd/blackspot/blackspot-package.jpg',
+      	'/img/miners/mntd/blackspot/blackspot-spotlight.jpg'
 			], 
 			'The standard RAK helium hotspot miner, but with 4GB RAM (double the regular RAK Hotspot Miner). All other mining operations are the same as the Limited Edition Goldspot Miner.'
 		),

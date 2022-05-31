@@ -1,9 +1,9 @@
 {
   "name": "whitelist-backend",
-  "version": "0.17.2",
+  "version": "0.18.0",
   "private": true,
   "engines": {
-    "node": "17"
+    "node": ">=17"
   },
   "description": "The backend server for the whitelist-crypto site",
   "scripts": {

@@ -20,4 +20,4 @@ CREATE TABLE IF NOT EXISTS public.products
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.products
-    OWNER to admin;
+    OWNER to postgres;
