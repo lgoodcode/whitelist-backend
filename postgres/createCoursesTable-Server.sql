@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS public.courses
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.courses
-    OWNER to stkyrzfpsjtvpc;
+    OWNER to xjpfxlue;

@@ -1,5 +1,4 @@
-'use strict'
-
+const dotenv = require('dotenv')
 const paths = require('./paths')
 const NODE_ENV = process.env.NODE_ENV
 
@@ -31,5 +30,5 @@ const dotEnvFiles = [
 
 // Loads the environment variables
 dotEnvFiles.forEach((dotEnvFile) => {
-   require('dotenv').config({ path: dotEnvFile })
+   dotenv.config({ path: dotEnvFile })
 })
