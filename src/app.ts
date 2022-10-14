@@ -2,6 +2,7 @@ import express from 'express'
 import compression from 'compression'
 import cors from 'cors'
 import router from './routes'
+import morgan from 'morgan'
 import logging from './controllers/logging'
 
 const app = express()
@@ -21,6 +22,8 @@ app.use(cors())
 // Parse JSON and form data in req.body
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+app.use(morgan('common'))
 
 app.use(logging)
 
