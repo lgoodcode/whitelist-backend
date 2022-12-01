@@ -3,7 +3,7 @@ import compression from 'compression'
 import cors from 'cors'
 import router from './routes'
 import morgan from 'morgan'
-import logging from './controllers/logging'
+// import logging from './controllers/logging'
 
 const app = express()
 const { ROUTE_VERSION = '/v1' } = process.env
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(morgan('common'))
 
-app.use(logging)
+// app.use(logging)
 
 app.use(ROUTE_VERSION, router)
 
